@@ -39,7 +39,7 @@ const MiniCard: React.FC<MiniCardProps> = ({ time, temp, iconString }) => {
   console.log(iconString);
 
   return (
-    <div className='glassCard w-[10rem] h-[10rem] p-4 flex flex-col'>
+    <div className='glassCard w-[10rem] h-[13rem] p-4 flex flex-col'>
       <p className='text-center'>
       {new Date(time).toLocaleDateString('pt-br', { weekday: 'long' })}
       </p>
