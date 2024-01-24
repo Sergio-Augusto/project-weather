@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useWeatherStore } from '../Store/WeatherStore';
 
-// Images
+//images
 import Clear from '../assets/images/Clear.jpg';
 import Fog from '../assets/images/fog.png';
 import Cloudy from '../assets/images/Cloudy.jpg';
@@ -10,48 +10,32 @@ import Snow from '../assets/images/snow.jpg';
 import Stormy from '../assets/images/Stormy.jpg';
 import Sunny from '../assets/images/Sunny.jpg';
 
-interface ImageMap {
-  [key: string]: string;
-}
-
-const imageMap: ImageMap = {
-  clear: Clear,
-  cloud: Cloudy,
-  rain: Rainy,
-  shower: Rainy,
-  snow: Snow,
-  fog: Fog,
-  thunder: Stormy,
-  storm: Stormy,
-};
-
-const getImageForWeather = (weather: string) => {
-  const lowercaseWeather = weather.toLowerCase();
-
-  for (const key in imageMap) {
-    if (lowercaseWeather.includes(key)) {
-      return imageMap[key];
-    }
-  }
-
-  return Clear;
-};
-
-const BackgroundLayout = () => {
+const BackgroundLayout: React.FC = () => {
   const { weatherData } = useWeatherStore();
-  const [image, setImage] = useState<string | undefined>(Clear);
+  const [image, setImage] = useState<string>(Clear);
 
   useEffect(() => {
-    if (weatherData?.weather != null) {
-      const weatherCondition = weatherData?.weather[0]?.main;
-      if (weatherCondition!=null) {
-        const newImage = getImageForWeather(weatherCondition);
-        setImage(newImage);
+    if (weatherData?.list[0]?.weather[0]?.main) {
+      let imageString: string = weatherData?.list[0]?.weather[0]?.main;
+      if (imageString.toLowerCase().includes('clear')) {
+        setImage(Clear);
+      } else if (imageString.toLowerCase().includes('cloud')) {
+        setImage(Cloudy);
+      } else if (imageString.toLowerCase().includes('rain') || imageString.toLowerCase().includes('shower')) {
+        setImage(Rainy);
+      } else if (imageString.toLowerCase().includes('snow')) {
+        setImage(Snow);
+      } else if (imageString.toLowerCase().includes('fog')) {
+        setImage(Fog);
+      } else if (imageString.toLowerCase().includes('thunder') || imageString.toLowerCase().includes('storm')) {
+        setImage(Stormy);
       }
     }
   }, [weatherData]);
 
-  return <img src={image} alt="weather_image" className='h-screen w-full fixed left-0 top-0 -z-[10]' />;
+  return (
+    <img src={image} alt="weather_image" className='h-screen w-full fixed left-0 top-0 -z-[10]' />
+  );
 };
 
 export default BackgroundLayout;
