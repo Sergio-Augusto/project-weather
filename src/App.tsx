@@ -94,7 +94,7 @@ function App() {
             onClick={(e) => getWeatherDetails(e)}
             className=" w-[15rem]  bg-green-400  py-3 rounded-lg text-white text-sm font-bold hover:scale-105 transition-all duration-200 ease-in-out"
           >
-            Get Weather
+        Obter Clima
           </button>
         </div>
        
